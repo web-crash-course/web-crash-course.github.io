@@ -1,0 +1,20 @@
+.reveal.training section .no-border {
+    border: 0;
+}
+
+.reveal.training section .no-margin {
+    margin: 0;
+}
+
+.reveal.training section .no-background {
+    background: none;
+    box-shadow: none;
+}
+
+.reveal.training section .no-text-transform {
+    text-transform: none;
+}
+
+.reveal.training code.highlight, .reveal.training span.highlight  {
+    color: #42affa;
+}
