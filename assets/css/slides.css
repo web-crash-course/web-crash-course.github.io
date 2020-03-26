@@ -15,6 +15,15 @@
     text-transform: none;
 }
 
-.reveal.training code.highlight, .reveal.training span.highlight  {
+.reveal.training .highlight {
     color: #42affa;
+}
+
+.reveal.training code.code {
+    font-size: 0.75em;
+    color: #f92672;
+}
+
+.reveal.training .highlight-secondary {
+    color: #f92672;
 }
