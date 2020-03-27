@@ -393,7 +393,7 @@ p, div {
 				<section>
 					<h1 class="no-text-transform highlight-secondary">Exercise CSS</h1>
 				</section>
-				<section>
+				<section id="cssExercise">
 					<h2 class="no-text-transform">Exercise CSS (1)</h2>
 					<ul>
 						<li>Create a CSS file (<code class="code">styles.css</code>) next to the <code class="code">index.html</code> created in the <a href="#htmlExercise">HTML exercise</a>.</li>
@@ -620,7 +620,7 @@ inputElement.addEventListener( // add a listener to the input
 				<section>
 					<h1 class="no-text-transform highlight-secondary">Exercise JavaScript</h1>
 				</section>
-				<section>
+				<section id="jsExercise">
 					<h2 class="no-text-transform">Exercise JavaScript (1)</h2>
 					<ul>
 						<li>Create a JavaScript file (<code class="code">index.js</code>) next to the <code class="code">index.html</code> created in the <a href="#htmlExercise">HTML exercise</a>.</li>
@@ -637,7 +637,119 @@ inputElement.addEventListener( // add a listener to the input
 					</ul>
 				</section>
 				<section>
-					<h1>?</h1>
+					<hgroup>
+						<h2 class="no-text-transform highlight-secondary">Single Page Applications</h2>
+						<h1 class="no-text-transform highlight-secondary">SPAs</h1>
+					</hgroup>
+				</section>
+				<section>
+					<h3 class="no-text-transform">Classical web applications</h3>
+					<div style="display: flex">
+						<img class="plain no-border" height="300" src="assets/img/classical-web-apps.png">
+						<ul>
+							<li>The content of each web page is fully <mark>rendered on the server</mark>.</li>
+							<li>Each action requires a <mark>round trip to the server</mark> which contains presentation logic and application state.</li>
+						</ul>
+					</div>
+				</section>
+				<section>
+					<h3 class="no-text-transform">Single Page Applications</h3>
+					<div style="display: flex">
+						<img class="plain no-border" height="300" src="assets/img/spas.png">
+						<ul>
+							<li>The page's content is retrieved with a <mark>single page load</mark>.</li>
+							<li>The page <mark>does not reload</mark> any more.</li>
+							<li>Popular way to build <mark>rich web clients</mark>.</li>
+						</ul>
+					</div>
+				</section>
+				<section>
+					<h1 class="no-text-transform highlight-secondary">Angular</h1>
+				</section>
+				<section id="angularSetup">
+					<h3 class="no-text-transform">How to set it all up?</h3>
+					<ol>
+						<li>Install a <mark>Git client</mark> as well as <mark>Node.js</mark> along with <mark>npm</mark>.</li>
+						<li>
+							<span >Install the Angular CLI:</span>
+							<pre style="margin: 0"><code data-trim class="bash">npm install -g @angular/cli</code></pre>
+						</li>
+						<li>
+							<span style="flex: 0 0 45%">Clone our Git repository:</span>
+							<pre style="flex: 0 0 55%; margin: 0"><code data-trim class="bash">git clone https://github.com/web-crash-course/angular-app.git</code></pre>
+						</li>
+						<li>
+							<span>Install the app's dependencies (it may take a while):</span>
+							<pre style="margin: 0"><code data-trim class="bash">
+									cd angular-app
+									npm install
+							</code></pre>
+						</li>
+						<li>
+							<span>Start the app:</span>
+							<pre style="margin: 0"><code data-trim class="bash">
+									ng serve -o
+							</code></pre>
+						</li>
+					</ol>
+				</section>
+				<section>
+					<h3><code class="code highlight">EmployeeDetailsComponent (1)</code></h3>
+					<ul>
+						<li>
+							<span>Generate <code class="code">EmployeeDetailsComponent</code>:</span>
+							<pre style="margin: 0"><code data-trim class="bash">ng generate component EmployeeDetails</code></pre>
+						</li>
+						<li>
+							Go to <code class="code">app.component.html</code> and replace its current content with:
+							<pre style="margin: 0"><code data-trim class="html">&lt;app-employee-details&gt;&lt;/app-employee-details&gt;</code></pre>
+						</li>
+						<li>Copy the form created in the <a href="#htmlExercise">HTML exercise</a> into <code class="code">employee-details.component.html</code></li>
+						<li>Copy the CSS styles created in the <a href="#cssExercise">CSS exercise</a> into <code class="code">employee-details.component.scss</code></li>
+					</ul>
+				</section>
+				<section>
+					<h3><code class="code highlight">EmployeeDetailsComponent (2)</code></h3>
+					<ul>
+						<li>
+							Go to <code class="code">employee-details.component.html</code> and make use of Angular <a target="_blank" href="https://angular.io/guide/template-syntax#event-binding-event">Event binding</a> to handle the <code class="code">submit</code> event:
+							<pre style="margin: 0"><code data-trim class="html">
+								&lt;form (submit)="save($event)" &gt;
+								&lt;/form&gt;
+							</code></pre>
+						</li>
+						<li>
+							<span>Go to <code class="code">employee-details.component.ts</code> and add the <code class="code">save()</code> method to the component class:</span>
+							<pre style="margin: 0"><code data-trim class="typescript">
+								export class EmployeeDetailsComponent {
+								  save(event: Event) {
+								  }
+								}
+							</code></pre>
+						</li>
+						<li>Copy the submit event handler's body created in the <a href="#jsExercise">JavaScript exercise</a> to the <code class="code">save()</code> method.</li>
+					</ul>
+				</section>
+				<section>
+					<h3><code class="code highlight">EmployeeDetailsComponent (3)</code></h3>
+					<pre style="margin: 0; width: 100%"><code data-trim data-line-numbers="3,5,7,10,11" class="hljs typescript has-highlights">
+save(event: Event) {
+  event.preventDefault();
+  const formElement = event.target as HTMLFormElement;
+  const firstNameInputElement = formElement
+        && formElement.querySelector&lt;HTMLInputElement&gt;('#firstName');
+  const lastNameInputElement = formElement
+        && formElement.querySelector&lt;HTMLInputElement&lt;('#lastName');
+  if (firstNameInputElement && firstNameInputElement.value
+        && lastNameInputElement && lastNameInputElement.value) {
+      console.log({firstName: firstNameInputElement.value,
+                   lastName: lastNameInputElement.value});
+  }
+}
+					</code></pre>
+				</section>
+				<section>
+					<h3 class="no-text-transform highlight">We're now at the <a target="_blank" href="https://github.com/web-crash-course/angular-app/tree/1-component"><code class="code">1-component</code></a> branch</h3>
 				</section>
 			</div>
 		</div>
