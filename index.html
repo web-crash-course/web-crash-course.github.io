@@ -751,6 +751,95 @@ save(event: Event) {
 				<section>
 					<h3 class="no-text-transform highlight">We're now at the <a target="_blank" href="https://github.com/web-crash-course/angular-app/tree/1-component"><code class="code">1-component</code></a> branch</h3>
 				</section>
+				<section>
+					<h3 class="no-text-transform highlight">Angular Reactive Forms (1)</h3>
+					<ul>
+						<li>Import the <code class="code">ReactiveFormsModule</code> in the <code class="code">AppModule</code></li>
+						<li>
+							Create a backing object for the <code class="code">&lt;form&gt;</code> element and initialize it:
+							<pre style="margin: 0; width: 100%"><code data-trim data-line-numbers="2,5,6,7,8,9,10" class="hljs typescript has-highlights">
+export class EmployeeDetailsComponent {
+  employeeForm: FormGroup; // exposed to the template (form)
+
+  constructor() {
+    this.employeeForm = new FormGroup({
+      // backing object for the first name input
+      firstName: new FormControl('', // initially empty
+          Validators.required), // is required
+      lastName: new FormControl('', Validators.required)
+    });
+  }
+}
+					</code></pre>
+						</li>
+					</ul>
+				</section>
+				<section>
+					<h3 class="no-text-transform highlight">Angular Reactive Forms (2)</h3>
+					<ul>
+						<li>
+							Having the <code class="code">formGroup</code> property we can make the <code class="code">save()</code> method simpler:
+							<pre style="margin: 0; width: 100%"><code data-trim data-line-numbers="5,6,7,8,9,10,11,12,13" class="hljs typescript has-highlights">
+export class EmployeeDetailsComponent {
+  employeeForm: FormGroup;
+  // constructor here...
+
+  save() {
+    if (this.employeeForm.valid) {
+      const firstName = this.employeeForm.get('firstName');
+      const lastName = this.employeeForm.get('lastName');
+      console.log({firstName, lastName});
+    } else {
+      console.error('Input values wrong...');
+    }
+  }
+}
+					</code></pre>
+						</li>
+					</ul>
+				</section>
+				<section>
+					<h3 class="no-text-transform highlight">Angular Reactive Forms (3)</h3>
+					<ul>
+						<li>
+							Go to <code class="code">employee-details.component.html</code> and modify slightly the <code class="code">submit</code>'s event binding:
+							<pre><code data-trim class="html">
+								&lt;form (ngSubmit)="save()"&gt;...&lt;/form&gt;
+							</code></pre>
+							which saves calling <code class="code">event.preventDefault()</code> in the <code class="code">save()</code> handler.
+						</li>
+						<li>
+							Bind the component's <code class="code">employeeForm</code> with the <code class="code">&lt;form&gt;</code> element using the Angular <a href="https://angular.io/guide/template-syntax#property-binding-property" target="_blank">property binding</a>:
+							<pre><code data-trim class="html">
+								&lt;form ... [formGroup]="employeeForm"&gt;...&lt;/form&gt;
+							</code></pre>
+						</li>
+
+					</ul>
+				</section>
+				<section>
+					<h3 class="no-text-transform highlight">Angular Reactive Forms (4)</h3>
+					<ul>
+						<li>
+							Bind the firstName and lastName <code class="code">&lt;input&gt;</code> elements with form's controls as well:
+							<pre style="margin: 0"><code data-trim data-line-numbers="2,3" class="html">
+								&lt;form (ngSubmit)="save()" [formGroup]="employeeForm"&gt;
+								  &lt;input id="firstName" formControlName="firstName"&gt;
+								  &lt;input id="lastName" formControlName="lastName"&gt;
+								&lt;/form&gt;
+							</code></pre>
+						</li>
+						<li>
+							You might notice that the <code class="code">ng-invalid</code> CSS class is added to the <code class="code">&lt;input&gt;</code> element if it becomes invalid.
+						</li>
+						<li>
+							Go to <code class="code">employee-details.component.scss</code> and add a CSS rule-set which sets the <code class="code">&lt;input&gt;</code>'s border to red if the input is invalid.
+						</li>
+					</ul>
+				</section>
+				<section>
+					<h3 class="no-text-transform highlight">We're now at the <a target="_blank" href="https://github.com/web-crash-course/angular-app/tree/2-forms"><code class="code">2-forms</code></a> branch</h3>
+				</section>
 			</div>
 		</div>
 
