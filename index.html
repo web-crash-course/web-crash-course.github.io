@@ -786,8 +786,8 @@ export class EmployeeDetailsComponent {
 
   save() {
     if (this.employeeForm.valid) {
-      const firstName = this.employeeForm.get('firstName');
-      const lastName = this.employeeForm.get('lastName');
+      const firstName = this.employeeForm.get('firstName').value;
+      const lastName = this.employeeForm.get('lastName').value;
       console.log({firstName, lastName});
     } else {
       console.error('Input values wrong...');
@@ -839,6 +839,82 @@ export class EmployeeDetailsComponent {
 				</section>
 				<section>
 					<h3 class="no-text-transform highlight">We're now at the <a target="_blank" href="https://github.com/web-crash-course/angular-app/tree/2-forms"><code class="code">2-forms</code></a> branch</h3>
+				</section>
+				<section>
+					<h3 class="no-text-transform highlight">Component communication (1)</h3>
+					<ul>
+						<li>
+							Go to <code class="code">employee-details.component.ts</code>. Create and export the <code class="code">Emplyee</code> interface:
+							<pre style="margin: 0; width: 100%"><code data-trim class="hljs typescript has-highlights">
+export interface Employee {
+  firstName: string;
+  lastName: string;
+}
+					</code></pre>
+						</li>
+						<li>
+							Add a component's input, that is, the <code class="code">@Input()</code> decorator and an <code class="code">employee</code> setter which sets the form:
+							<pre style="margin: 0; width: 100%"><code data-trim class="hljs typescript has-highlights">
+export class EmployeeDetailsComponent {
+  @Input()
+  set employee(employee: Employee) {
+    this.employeeForm.setValue(employee);
+  }
+  // the rest is omitted
+}
+					</code></pre>
+					</ul>
+				</section>
+				<section>
+					<h3 class="no-text-transform highlight">Component communication (2)</h3>
+					<ul>
+						<li>
+							Add a component's output, that is, the <code class="code">@Output()</code> decorator and an <code class="code">employeeChange</code> event emitter:
+							<pre style="margin: 0; width: 100%"><code data-trim class="hljs typescript has-highlights">
+export class EmployeeDetailsComponent {
+  @Output()
+  employeeChange = new EventEmitter&lt;Employee&gt;();
+  // the rest is omitted
+}
+							</code></pre>
+						</li>
+						<li>
+							Instead of printing to the console upon save, fire an event containing the current employee:
+							<pre style="margin: 0; width: 100%"><code data-trim data-line-numbers="5" class="hljs typescript has-highlights">
+save() {
+  if (this.employeeForm.valid) {
+    const firstName = this.employeeForm.get('firstName').value;
+    const lastName = this.employeeForm.get('lastName').value;
+    this.employeeChange.emit({firstName, lastName});
+  }
+}
+							</code></pre>
+						</li>
+					</ul>
+				</section>
+				<section>
+					<h3 class="no-text-transform highlight">Component communication (3)</h3>
+					<ul>
+						<li>
+							Go to <code class="code">app.component.ts</code> and add the <code class="code">employee</code> along with <code class="code">employeeToSave</code> properties, both of the <code class="code">Employee</code> interface.
+						</li>
+						<li>
+							Go to <code class="code">app.component.html</code> and bind the <code class="code">AppComponent</code>'s properties with the <code class="code">EmployeeDetailsComponent</code>'s ones:
+							<pre style="margin: 0; width: 100%"><code data-trim class="hljs html has-highlights">
+&lt;app-employee-details
+		[employee]="employee"
+		(employeeChange)="employeeToSave = $event"&gt;&lt;/app-employee-details&gt;
+							</code></pre>
+						</li>
+						<li>Use the <a href="https://angular.io/guide/template-syntax#interpolation-" target="_blank">interpolation</a> and the <a target="_blank" href="https://angular.io/api/common/JsonPipe">json pipe</a> to show the current value of the <code class="code">employeeToSave</code> property:
+							<pre style="margin: 0; width: 100%"><code data-trim class="hljs html has-highlights">
+&lt;p&gt;Employee to save: {{employeeToSave | json}}&lt;/p&gt;
+							</code></pre>
+						</li>
+					</ul>
+				</section>
+				<section>
+					<h3 class="no-text-transform highlight">We're now at the <a target="_blank" href="https://github.com/web-crash-course/angular-app/tree/3-communication"><code class="code">3-communication</code></a> branch</h3>
 				</section>
 			</div>
 		</div>
